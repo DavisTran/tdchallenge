@@ -8,9 +8,7 @@
 
     <!-- main color -->
     <item
-        android:bottom="1.0dp"
-        android:left="1.0dp"
-        android:right="1.0dp">
+        android:bottom="1.0dp">
         <shape>
             <solid android:color="@color/colorWhite" />
         </shape>

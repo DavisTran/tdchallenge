@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"
+            android:id="@+id/background_img"
+            android:background="@drawable/tdlogo"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:src="@drawable/ic_menu_slideshow"
+            android:id="@+id/fb_transfer"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/background_img"
+            android:layout_marginTop="-30dp"
+            app:fabSize="normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:src="@drawable/ic_menu_wallet"
+        android:id="@+id/fb_payment"
+        app:fabSize="normal"
+        android:layout_below="@+id/background_img"
+        android:layout_marginTop="-30dp"
+        android:layout_alignLeft="@+id/fb_transfer"
+        android:layout_marginLeft="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:src="@drawable/ic_menu_nfc"
+        android:id="@+id/fb_nfc"
+        android:layout_below="@+id/background_img"
+        android:layout_alignRight="@+id/fb_transfer"
+        android:layout_marginTop="-30dp"
+        android:layout_marginRight="100dp"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</LinearLayout>

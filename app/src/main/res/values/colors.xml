@@ -12,4 +12,5 @@
     <color name="colorTeal">#00B3B3</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#D3D3D3</color>
+    <color name="black_alpha_40">#66000000</color>
 </resources>

@@ -6,9 +6,11 @@
     <color name="TDDarkGreen">#006400</color>
     <color name="TDLightGreen">#4AFE49</color>
     <color name="TDGreen">#34B233</color>
+    <color name="colorPastel">#F4FFF0</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorNeonTeal">#37FDFC</color>
     <color name="colorTeal">#00B3B3</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGrey">#D3D3D3</color>
+    <color name="black_alpha_40">#66000000</color>
 </resources>

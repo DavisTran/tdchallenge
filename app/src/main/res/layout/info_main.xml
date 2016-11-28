@@ -25,7 +25,8 @@
             android:layout_marginTop="-30dp"
             app:fabSize="normal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:onClick="FABSelected"/>
 
     <android.support.design.widget.FloatingActionButton
         android:src="@drawable/ic_menu_wallet"
@@ -36,7 +37,8 @@
         android:layout_alignLeft="@+id/fb_transfer"
         android:layout_marginLeft="100dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="FABSelected"/>
 
     <android.support.design.widget.FloatingActionButton
         android:src="@drawable/ic_menu_nfc"
@@ -47,6 +49,7 @@
         android:layout_marginRight="100dp"
         app:fabSize="normal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:onClick="FABSelected"/>
     </RelativeLayout>
 </LinearLayout>

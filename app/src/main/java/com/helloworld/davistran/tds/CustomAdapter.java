@@ -171,7 +171,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }else if(viewType == MAIN)
         {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.info_main, parent, false);
-            return new TransactionViewHolder(v);
+            return new ImageViewHolder(v);
         }else
         {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.info_nearme, parent, false);
@@ -186,8 +186,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         {
             //set information here
             AccountsViewHolder hold = (AccountsViewHolder)holder;
-            String text = mDataSet[position];
-            hold.cheqBtn.setText(text);
+            //String text = mDataSet[position];
+            //hold.cheqBtn.setText(text);
         }else if(holder.getItemViewType() == TRANSACTIONS)
         {
             TransactionViewHolder hold = (TransactionViewHolder) holder;

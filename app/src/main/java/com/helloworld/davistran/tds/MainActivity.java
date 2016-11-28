@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -185,5 +186,52 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void accountSelected(View view) {
+        switch(view.getId())
+        {
+            case R.id.saveBtn:
+                Intent s = new Intent(this, AccountActivity.class);
+                s.putExtra("accountType", "Savings");
+                startActivity(s);
+                break;
+            case R.id.chequeBtn:
+                Intent c = new Intent(this, AccountActivity.class);
+                c.putExtra("accountType", "Chequing");
+                startActivity(c);
+                break;
+            case R.id.ccBtn:
+                Intent cc = new Intent(this, AccountActivity.class);
+                cc.putExtra("accountType", "MasterCard");
+                startActivity(cc);
+                break;
+            case R.id.tfsaBtn:
+                Intent t = new Intent(this, AccountActivity.class);
+                t.putExtra("accountType", "TFSA");
+                startActivity(t);
+                break;
+        }
+    }
+
+    public void FABSelected(View view) {
+        switch(view.getId())
+        {
+            case R.id.fb_nfc:
+                Intent nfc = new Intent(this, NFCFormActivity.class);
+                //nfc.putExtra();
+                startActivity(nfc);
+                break;
+            case R.id.fb_payment:
+                Intent pay = new Intent(this, NFCFormActivity.class);
+                //nfc.putExtra();
+                startActivity(pay);
+                break;
+            case R.id.fb_transfer:
+                Intent trans = new Intent(this, NFCFormActivity.class);
+                //nfc.putExtra();
+                startActivity(trans);
+                break;
+        }
     }
 }

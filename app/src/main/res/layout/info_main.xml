@@ -1,52 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:transitionName="heroContainer"
+        android:id="@+id/heroContainer">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/hero2"
+            android:id="@+id/hero"
+            android:transitionName="heroImage"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_alignParentStart="true" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:layout_centerInParent="true"
-            android:id="@+id/background_img"
-            android:background="@drawable/tdlogo"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:src="@drawable/ic_menu_slideshow"
-            android:id="@+id/fb_transfer"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/background_img"
-            android:layout_marginTop="-30dp"
-            app:fabSize="normal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:src="@drawable/ic_menu_wallet"
-        android:id="@+id/fb_payment"
-        app:fabSize="normal"
-        android:layout_below="@+id/background_img"
-        android:layout_marginTop="-30dp"
-        android:layout_alignLeft="@+id/fb_transfer"
-        android:layout_marginLeft="100dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            app:srcCompat="@drawable/tdlogo"
+            android:id="@+id/imageView3"
+            android:scaleX="0.3"
+            android:scaleY="0.3"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:src="@drawable/ic_menu_nfc"
         android:id="@+id/fb_nfc"
-        android:layout_below="@+id/background_img"
-        android:layout_alignRight="@+id/fb_transfer"
-        android:layout_marginTop="-30dp"
         android:layout_marginRight="100dp"
         app:fabSize="normal"
+        android:tint="@android:color/secondary_text_light"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    </RelativeLayout>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/heroContainer"
+        android:layout_toStartOf="@+id/fb_transfer"
+        android:transitionName="fbNFC"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="44dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:src="@drawable/ic_menu_slideshow"
+        android:id="@+id/fb_transfer"
+        app:fabSize="normal"
+        android:tint="@android:color/secondary_text_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/heroContainer"
+        android:transitionName="fbTransfer"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true" />
+
+    <android.support.design.widget.FloatingActionButton
+    android:src="@drawable/ic_menu_wallet"
+    android:id="@+id/fb_payment"
+    app:fabSize="normal"
+        android:tint="@android:color/secondary_text_light"
+        android:layout_marginLeft="100dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/heroContainer"
+        android:layout_toEndOf="@+id/fb_transfer"
+        android:transitionName="fbPayment"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="45dp" />
+</RelativeLayout>

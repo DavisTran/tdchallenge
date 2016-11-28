@@ -8,15 +8,19 @@
     android:fitsSystemWindows="true"
     tools:context="com.helloworld.davistran.tds.MainActivity">
 
-    <include layout="@layout/content_main" />
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/transparent"
-        />
+        android:layout_height="match_parent">
 
-
+        <include layout="@layout/content_main" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            style="@style/DrawerArrowStyle"
+            />
+    </RelativeLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

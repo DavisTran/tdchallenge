@@ -2,11 +2,16 @@ package com.helloworld.davistran.tds;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -28,6 +33,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -63,6 +70,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    ColorMatrix matrix = new ColorMatrix();
+    float saturation = 0;
+    ImageView heroImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,14 +98,49 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+//                ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
+//                animation.setDuration(500);
+//                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                    @Override
+//                    public void onAnimationUpdate(ValueAnimator animation) {
+//                        matrix.setSaturation(animation.getAnimatedFraction());
+//                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+//                        heroImage.setColorFilter(filter);
+//                    }
+//                });
+//                animation.start();
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
+                RelativeLayout heroContainer = (RelativeLayout) findViewById(R.id.heroContainer);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this, heroContainer, "heroContainer");
+                startActivity(i, options.toBundle());
                 //attemptLogin();
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        matrix.setSaturation(saturation);
+        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+        heroImage = (ImageView) findViewById(R.id.hero);
+        heroImage.setColorFilter(filter);
+    }
+
+    @Override
+    protected void onResume() {
+        ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
+        animation.setDuration(1000);
+        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                saturation = 1f - (float)animation.getAnimatedValue();
+                matrix.setSaturation(saturation);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                heroImage.setColorFilter(filter);
+            }
+        });
+        animation.start();
+        super.onResume();
     }
 
     private void populateAutoComplete() {

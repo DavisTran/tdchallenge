@@ -1,10 +1,14 @@
 package com.helloworld.davistran.tds;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
+import android.transition.Transition;
 import android.view.Gravity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +17,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,8 +47,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupWindowAnimation();
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,12 +92,65 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        FloatingActionButton fbNFC = (FloatingActionButton) findViewById(R.id.fb_nfc);
+//        FloatingActionButton fbTransfer = (FloatingActionButton) findViewById(R.id.fb_payment);
+//        FloatingActionButton fbPayment = (FloatingActionButton) findViewById(R.id.fb_transfer);
+//        fbNFC.setVisibility(View.INVISIBLE);
+//        fbTransfer.setVisibility(View.INVISIBLE);
+//        fbPayment.setVisibility(View.INVISIBLE);
+        setupWindowAnimation();
     }
 
     private void setupWindowAnimation(){
         Slide slideTransition = new Slide();
-        slideTransition.setSlideEdge(Gravity.RIGHT);
+        slideTransition.setSlideEdge(Gravity.BOTTOM);
         slideTransition.setDuration(500);
+        slideTransition.excludeTarget(R.id.heroContainer, true);
+        slideTransition.excludeTarget(R.id.toolbar, true);
+        slideTransition.excludeTarget(android.R.id.statusBarBackground, true);
+        slideTransition.excludeTarget(android.R.id.navigationBarBackground, true);
+        slideTransition.excludeTarget(R.id.fb_nfc, true);
+        slideTransition.excludeTarget(R.id.fb_payment, true);
+        slideTransition.excludeTarget(R.id.fb_transfer, true);
+        slideTransition.addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                ScaleAnimation anim = new ScaleAnimation(0,1,0,1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                anim.setFillBefore(true);
+                anim.setFillAfter(true);
+                anim.setFillEnabled(true);
+                anim.setDuration(500);
+                anim.setInterpolator(new OvershootInterpolator());
+
+                FloatingActionButton fbNFC = (FloatingActionButton) findViewById(R.id.fb_nfc);
+                FloatingActionButton fbTransfer = (FloatingActionButton) findViewById(R.id.fb_payment);
+                FloatingActionButton fbPayment = (FloatingActionButton) findViewById(R.id.fb_transfer);
+                fbNFC.bringToFront();
+                fbTransfer.bringToFront();
+                fbPayment.bringToFront();
+                fbNFC.setAnimation(anim);
+                fbTransfer.setAnimation(anim);
+                fbPayment.setAnimation(anim);
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+            }
+        });
+        getWindow().setEnterTransition(slideTransition);
         getWindow().setReenterTransition(slideTransition);
         getWindow().setExitTransition(slideTransition);
     }
@@ -166,7 +228,9 @@ public class MainActivity extends AppCompatActivity
         {
             case R.id.nav_logout:
                 Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(i);
+                RelativeLayout heroContainer = (RelativeLayout) findViewById(R.id.heroContainer);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this, heroContainer, "heroContainer");
+                startActivity(i, options.toBundle());
                 break;
             case R.id.nav_contact:
                 break;

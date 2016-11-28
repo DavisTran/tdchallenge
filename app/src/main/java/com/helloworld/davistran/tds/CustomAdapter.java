@@ -1,6 +1,7 @@
 package com.helloworld.davistran.tds;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
@@ -12,7 +13,11 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
 import java.util.ArrayList;
+
 
 /**
  * Created by Davis on 11/20/2016.
@@ -93,13 +98,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public class TransactionViewHolder extends ViewHolder {
         public CardView cv2;
-        public ImageView img;
         //pie chart in this one http://www.achartengine.org/content/download.html
         public TransactionViewHolder(View itemView)
         {
             super(itemView);
             cv2 = (CardView)itemView.findViewById(R.id.cv2);
-            img = (ImageView)itemView.findViewById(R.id.img);
+
+            PieChart mPieChart = (PieChart) cv2.findViewById(R.id.piechart);
+
+            mPieChart.addPieSlice(new PieModel("Freetime", 15, Color.parseColor("#FE6DA8")));
+            mPieChart.addPieSlice(new PieModel("Sleep", 25, Color.parseColor("#56B7F1")));
+            mPieChart.addPieSlice(new PieModel("Work", 35, Color.parseColor("#CDA67F")));
+            mPieChart.addPieSlice(new PieModel("Eating", 9, Color.parseColor("#FED70E")));
+
+            mPieChart.startAnimation();
         }
     }
 
@@ -171,7 +183,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }else if(viewType == MAIN)
         {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.info_main, parent, false);
-            return new TransactionViewHolder(v);
+            return new ImageViewHolder(v);
         }else
         {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.info_nearme, parent, false);

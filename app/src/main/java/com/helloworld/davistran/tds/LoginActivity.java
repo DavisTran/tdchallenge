@@ -98,17 +98,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
-//                animation.setDuration(500);
-//                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                    @Override
-//                    public void onAnimationUpdate(ValueAnimator animation) {
-//                        matrix.setSaturation(animation.getAnimatedFraction());
-//                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-//                        heroImage.setColorFilter(filter);
-//                    }
-//                });
-//                animation.start();
+                ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
+                animation.setDuration(500);
+                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        matrix.setSaturation(animation.getAnimatedFraction());
+                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                        heroImage.setColorFilter(filter);
+                    }
+                });
+                animation.start();
                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 RelativeLayout heroContainer = (RelativeLayout) findViewById(R.id.heroContainer);
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this, heroContainer, "heroContainer");
@@ -128,18 +128,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onResume() {
-        ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
-        animation.setDuration(1000);
-        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                saturation = 1f - (float)animation.getAnimatedValue();
-                matrix.setSaturation(saturation);
-                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-                heroImage.setColorFilter(filter);
-            }
-        });
-        animation.start();
+//        ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
+//        animation.setDuration(1000);
+//        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                saturation = 1f - (float)animation.getAnimatedValue();
+//                matrix.setSaturation(saturation);
+//                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+//                heroImage.setColorFilter(filter);
+//            }
+//        });
+//        animation.start();
         super.onResume();
     }
 

@@ -1,6 +1,9 @@
 package com.helloworld.davistran.tds;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,30 +74,28 @@ public class NearMeAdapter extends BaseExpandableListAdapter {
 
         TextView name = (TextView)convertView.findViewById(R.id.nearme_name);
         TextView dist = (TextView)convertView.findViewById(R.id.nearme_dist);
-        ImageView img = (ImageView)convertView.findViewById(R.id.nearme_busy);
+        View img = convertView.findViewById(R.id.nearme_busy);
 
         name.setText(nearme.getnName());
         dist.setText(nearme.getnDistance());
+        Drawable dot = ResourcesCompat.getDrawable(parent.getResources(), R.drawable.dot, null);
         switch(nearme.getnBusy())
         {
             case "slow":
-                //red
-                img.setBackgroundResource(R.drawable.rdot);
+                dot.setTint(Color.RED);
                 break;
             case "moderate":
-                //orange
-                img.setBackgroundResource(R.drawable.ydot);
+                dot.setTint(Color.YELLOW);
                 break;
             case "fast":
-                //green
-                img.setBackgroundResource(R.drawable.gdot);
+                dot.setTint(Color.GREEN);
                 break;
             default:
                 //grey
                 //img.setBackgroundResource(R.drawable.tdlogo);
                 break;
         }
-
+        img.setBackground(dot);
         return convertView;
     }
 

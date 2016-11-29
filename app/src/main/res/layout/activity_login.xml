@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="com.helloworld.davistran.tds.LoginActivity"
     android:weightSum="1">
 

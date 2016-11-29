@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="5dp"
+    app:cardElevation="1dp"
     app:cardCornerRadius="3dp"
     android:layout_width="match_parent"
     android:layout_height="250dp"
@@ -22,7 +22,8 @@
         android:layout_row="0"
         android:background="@drawable/account_button_selected"
         android:id="@+id/chequeBtn"
-        android:text="Chequing"/>
+        android:text="Chequing"
+            android:onClick="accountSelected"/>
         <Button
         android:layout_columnWeight="1"
         android:layout_rowWeight="2"
@@ -30,7 +31,8 @@
         android:layout_row="0"
         android:background="@drawable/account_button_selected"
         android:id="@+id/saveBtn"
-        android:text="Savings"/>
+        android:text="Savings"
+            android:onClick="accountSelected"/>
         <Button
         android:layout_columnWeight="1"
         android:layout_rowWeight="2"
@@ -38,7 +40,8 @@
         android:layout_row="1"
         android:background="@drawable/account_button_selected"
         android:id="@+id/ccBtn"
-        android:text="Visa"/>
+        android:text="Visa"
+            android:onClick="accountSelected"/>
         <Button
         android:layout_columnWeight="1"
         android:layout_rowWeight="2"
@@ -46,6 +49,7 @@
         android:layout_row="1"
         android:background="@drawable/account_button_selected"
         android:id="@+id/tfsaBtn"
-        android:text="TFSA"/>
+        android:text="TFSA"
+            android:onClick="accountSelected"/>
     </GridLayout>
 </android.support.v7.widget.CardView>

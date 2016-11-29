@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.view.Gravity;
@@ -19,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -105,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     private void setupWindowAnimation(){
         Slide slideTransition = new Slide();
         slideTransition.setSlideEdge(Gravity.BOTTOM);
-        slideTransition.setDuration(500);
+        slideTransition.setDuration(700);
         slideTransition.excludeTarget(R.id.heroContainer, true);
         slideTransition.excludeTarget(R.id.toolbar, true);
         slideTransition.excludeTarget(android.R.id.statusBarBackground, true);
@@ -152,7 +155,8 @@ public class MainActivity extends AppCompatActivity
         });
         getWindow().setEnterTransition(slideTransition);
         getWindow().setReenterTransition(slideTransition);
-        getWindow().setExitTransition(slideTransition);
+        getWindow().setReturnTransition(slideTransition);
+        getWindow().setExitTransition(new Explode());
     }
 
     private void setupToolbar() {
@@ -249,5 +253,66 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void accountSelected(View view) {
+//        animateButtonsOut();
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        Intent i = new Intent(this, AccountActivity.class);
+        switch(view.getId())
+        {
+            case R.id.saveBtn:
+                i.putExtra("accountType", "Savings");
+                break;
+            case R.id.chequeBtn:
+                i.putExtra("accountType", "Chequing");
+                break;
+            case R.id.ccBtn:
+                i.putExtra("accountType", "MasterCard");
+                break;
+            case R.id.tfsaBtn:
+                i.putExtra("accountType", "TFSA");
+                break;
+        }
+
+        startActivity(i, options.toBundle());
+    }
+
+    private void animateButtonsOut() {
+        ScaleAnimation anim = new ScaleAnimation(1,0,1,0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim.setFillBefore(true);
+        anim.setFillAfter(true);
+        anim.setFillEnabled(true);
+        anim.setDuration(500);
+        anim.setInterpolator(new AccelerateInterpolator());
+
+        FloatingActionButton fbNFC = (FloatingActionButton) findViewById(R.id.fb_nfc);
+        FloatingActionButton fbTransfer = (FloatingActionButton) findViewById(R.id.fb_payment);
+        FloatingActionButton fbPayment = (FloatingActionButton) findViewById(R.id.fb_transfer);
+
+        fbNFC.setAnimation(anim);
+        fbTransfer.setAnimation(anim);
+        fbPayment.setAnimation(anim);
+    }
+
+    public void FABSelected(View view) {
+        switch(view.getId())
+        {
+            case R.id.fb_nfc:
+                Intent nfc = new Intent(this, NFCFormActivity.class);
+                //nfc.putExtra();
+                startActivity(nfc);
+                break;
+            case R.id.fb_payment:
+                Intent pay = new Intent(this, NFCFormActivity.class);
+                //nfc.putExtra();
+                startActivity(pay);
+                break;
+            case R.id.fb_transfer:
+                Intent trans = new Intent(this, NFCFormActivity.class);
+                //nfc.putExtra();
+                startActivity(trans);
+                break;
+        }
     }
 }

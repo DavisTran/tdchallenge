@@ -45,7 +45,8 @@
         android:transitionName="fbNFC"
         android:visibility="invisible"
         android:layout_marginBottom="10dp"
-        android:layout_marginEnd="44dp" />
+        android:layout_marginEnd="44dp"
+        android:onClick="FABSelected"/>
 
     <android.support.design.widget.FloatingActionButton
         android:src="@drawable/ic_menu_slideshow"
@@ -58,7 +59,8 @@
         android:transitionName="fbTransfer"
         android:visibility="invisible"
         android:layout_marginBottom="10dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="FABSelected"/>
 
     <android.support.design.widget.FloatingActionButton
     android:src="@drawable/ic_menu_wallet"
@@ -73,5 +75,6 @@
         android:transitionName="fbPayment"
         android:visibility="invisible"
         android:layout_marginBottom="10dp"
-        android:layout_marginStart="45dp" />
+        android:layout_marginStart="45dp"
+        android:onClick="FABSelected"/>
 </RelativeLayout>

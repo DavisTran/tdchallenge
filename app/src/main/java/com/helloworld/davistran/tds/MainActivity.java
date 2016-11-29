@@ -2,6 +2,8 @@ package com.helloworld.davistran.tds;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -40,10 +42,10 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static double Cheque = 150.10;
-    public static double Savings = 1000.11;
-    public static double MasterCard = 10.10;
-    public static double TFSA = 13000.71;
+    static double Cheque = 150.31;
+    static double Savings = 1000.17;
+    static double MasterCard = 10.55;
+    static double TFSA = 13000.71;
     private RecyclerView mRecyclerView;
     private CustomAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity
     private Button mcBtn;
     private Button tfsaBtn;
     private HashMap<NearMeInfo, String> TD_Locations;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +103,10 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.getMenu().getItem(0).setChecked(true);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemTextColor(ColorStateList.valueOf(Color.BLACK));
 //        FloatingActionButton fbNFC = (FloatingActionButton) findViewById(R.id.fb_nfc);
 //        FloatingActionButton fbTransfer = (FloatingActionButton) findViewById(R.id.fb_payment);
 //        FloatingActionButton fbPayment = (FloatingActionButton) findViewById(R.id.fb_transfer);
@@ -113,6 +116,16 @@ public class MainActivity extends AppCompatActivity
         setupWindowAnimation();
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+        mRecyclerView.invalidate();
+
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+    }
     private void setupWindowAnimation(){
         Slide slideTransition = new Slide();
         slideTransition.setSlideEdge(Gravity.BOTTOM);
@@ -196,12 +209,6 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -219,7 +226,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i, options.toBundle());
                 break;
             case R.id.nav_contact:
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
                 callIntent.setData(Uri.parse("tel:1-866-222-3456"));
                 try{
                     startActivity(callIntent);
@@ -230,6 +237,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_home:
                 break;
             case R.id.nav_location:
+                Intent map = new Intent(this, MapsActivity.class);
+                map.putExtra("locale", "true");
+                startActivity(map);
                 break;
             case R.id.nav_nfc:
                 Intent nfc = new Intent(this, NFCFormActivity.class);

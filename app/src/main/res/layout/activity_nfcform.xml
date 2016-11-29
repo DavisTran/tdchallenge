@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:layout_marginTop="50dp"
     android:orientation="vertical"
     tools:context="com.helloworld.davistran.tds.NFCFormActivity">
 
@@ -18,7 +19,8 @@
         android:layout_height="wrap_content"
         android:text="Receive NFC E-Transfer"
         android:id="@+id/receiveNFC"
-        android:onClick="NFCChoice"/>
+        android:onClick="NFCChoice"
+        android:layout_marginTop="50dp"/>
 
     <ViewSwitcher
         android:layout_width="match_parent"

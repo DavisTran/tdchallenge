@@ -22,10 +22,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
-    LatLng start = new LatLng(43027459,-81236088);
-//    LatLng TD1 = new LatLng(43.0200373,-81.2161815);
-//    LatLng TD2 = new LatLng(43.0348858,-81.2581032);
-//    LatLng TD3 = new LatLng(43.0067415,-81.2406151);
+    boolean locale = false;
+    LatLng start = new LatLng(43.0132,-81.1994);
+    LatLng TD1 = new LatLng(43.0200373,-81.2161815);
+    LatLng TD2 = new LatLng(43.0348858,-81.2581032);
+    LatLng TD3 = new LatLng(43.0067415,-81.2406151);
     LatLng loc;
     double LAT = 0.0;
     double LONG = 0.0;
@@ -37,11 +38,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        String check = "";
         Intent in = getIntent();
         Bundle extras = in.getExtras();
-
-        LAT = Double.parseDouble(extras.getString("latitude"));
-        LONG = Double.parseDouble(extras.getString("longitude"));
+        if(in.hasExtra("longitude"))
+        LAT = Double.parseDouble(extras.getString("longitude"));
+        if(in.hasExtra("latitude"))
+        LONG = Double.parseDouble(extras.getString("latitude"));
+        if(in.hasExtra("locale"))
+            check = extras.getString("locale");
+        if(check.matches("true"))
+            locale = true;
         loc = new LatLng(LAT,LONG);
 //         getSupportActionBar().setTitle("TD Canada Trust");
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -68,10 +75,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        mMap.addMarker(new MarkerOptions().position(loc).title("TD Canada Trust").icon(BitmapDescriptorFactory.fromResource(R.drawable.tdmaplogo)));
-//        mMap.addMarker(new MarkerOptions().position(TD2).title("TD Canada Trust Branch & ATM").icon(BitmapDescriptorFactory.fromResource(R.drawable.tdmaplogo)));
-//        mMap.addMarker(new MarkerOptions().position(TD3).title("TD Canada Trust").icon(BitmapDescriptorFactory.fromResource(R.drawable.tdmaplogo)));
+
+        if(locale) {
+            mMap.addMarker(new MarkerOptions().position(TD1).title("TD Canada Trust"));
+            mMap.addMarker(new MarkerOptions().position(TD2).title("TD Canada Trust Branch & ATM"));
+            mMap.addMarker(new MarkerOptions().position(TD3).title("TD Canada Trust"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(start,12));
+
+        }else {
+            mMap.addMarker(new MarkerOptions().position(loc).title("TD Canada Trust"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 14));
+        }
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         markStart();
     }
 

@@ -153,23 +153,24 @@ public class NearMeAdapter extends BaseExpandableListAdapter {
                 {
                     case "TD1":
                         Intent i = new Intent(ctx, MapsActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i.putExtra("longitude", "43.0200373");
                         i.putExtra("latitude", "-81.2161815");
-                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         ctx.startActivity(i);
                         break;
                     case "TD2":
                         Intent i2 = new Intent(ctx, MapsActivity.class);
+
+                        i2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i2.putExtra("longitude", "43.0348858");
                         i2.putExtra("latitude", "-81.2581032");
-                        i2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         ctx.startActivity(i2);
                         break;
                     case "TD3":
                         Intent i3 = new Intent(ctx, MapsActivity.class);
+                        i3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         i3.putExtra("longitude", "43.0067415");
                         i3.putExtra("latitude", "-81.2406151");
-                        i3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         ctx.startActivity(i3);
                         break;
                 }

@@ -84,6 +84,37 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //  Declare a new thread to do a preference check
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+                //  If the activity has never started before...
+                if (isFirstStart) {
+
+                //  Launch app intro
+                Intent i = new Intent(LoginActivity.this, IntroActivity.class);
+                startActivity(i);
+
+                //  Make a new preferences editor
+                SharedPreferences.Editor e = getPrefs.edit();
+
+                //  Edit preference to make it false because we don't want this to run again
+                e.putBoolean("firstStart", false);
+
+                //  Apply changes
+                e.apply();
+                }
+            }
+        });
+        t.start();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.cardnumber);
         populateAutoComplete();
@@ -140,6 +171,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
         heroImage = (ImageView) findViewById(R.id.hero);
         heroImage.setColorFilter(filter);
+
     }
 
     @Override
@@ -157,38 +189,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        });
 //        animation.start();
         super.onResume();
-        //  Declare a new thread to do a preference check
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //  Initialize SharedPreferences
-                SharedPreferences getPrefs = PreferenceManager
-                        .getDefaultSharedPreferences(getBaseContext());
-
-                //  Create a new boolean and preference and set it to true
-                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
-
-                //  If the activity has never started before...
-               // if (isFirstStart) {
-
-                    //  Launch app intro
-                    Intent i = new Intent(LoginActivity.this, IntroActivity.class);
-                    startActivity(i);
-
-                    //  Make a new preferences editor
-                    SharedPreferences.Editor e = getPrefs.edit();
-
-                    //  Edit preference to make it false because we don't want this to run again
-                    e.putBoolean("firstStart", false);
-
-                    //  Apply changes
-                    e.apply();
-               // }
-            }
-        });
-
-        // Start the thread
-        t.start();
     }
 
     private void populateAutoComplete() {

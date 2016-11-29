@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -22,7 +23,8 @@ public class NFCWriteActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private ViewSwitcher switcher;
     private String sender;
-    private String amnt, message;
+    private String amnt, message, password, recip, type;
+    private TextView sendTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,17 @@ public class NFCWriteActivity extends AppCompatActivity {
         switcher = (ViewSwitcher)findViewById(R.id.my_switcher);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
+        sendTV = (TextView)findViewById(R.id.sendTV);
+        getSupportActionBar().setTitle("Sending NFC E-Transfer");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent in = getIntent();
         Bundle extras = in.getExtras();
+        recip = extras.getString("recipient");
         amnt = extras.getString("amount");
         message = extras.getString("message");
+        password = extras.getString("password");
+        type = extras.getString("type");
 
         nfcManager = new NFCManager(this);
         nfcManager.onActivityCreate();
@@ -59,9 +67,27 @@ public class NFCWriteActivity extends AppCompatActivity {
     @Override
     public void onNewIntent(Intent intent){
         //sColor = getIntent().getExtras().getString("mycolor");
-        String msg = amnt + ", " + message;
+        String msg = amnt + " " + message + " " + password + " " + recip;
+        sendTV.setText("NFC E-Transfer Sent: \nAccount Type: " + type +"\nRecipient: " + recip + "\nAmount: " + amnt + "\nMessage: " + message );
+        switch(type)
+        {
+            case "Chequing":
+                MainActivity.Cheque -= Double.parseDouble(amnt);
+                break;
+            case "Savings":
+                MainActivity.Savings -= Double.parseDouble(amnt);
+                break;
+            case "MasterCard":
+                MainActivity.MasterCard -= Double.parseDouble(amnt);
+                break;
+            case "TFSA":
+                MainActivity.TFSA -= Double.parseDouble(amnt);
+                break;
+        }
+        switcher.showNext();
         nfcManager.setWrittenData(msg);
         nfcManager.writeDataToTag(intent,msg);
+        spinner.setVisibility(View.GONE);
     }
 
     @Override
@@ -76,9 +102,9 @@ public class NFCWriteActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    public void onClick(View view) {
-        // go back to the mainActivity
-        Intent intent = new Intent(NFCWriteActivity.this,MainActivity.class);
-        startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+    @Override
+    public void onBackPressed()
+    {
+        finish();
     }
 }

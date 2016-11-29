@@ -1,7 +1,9 @@
 package com.helloworld.davistran.tds;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Davis on 11/20/2016.
@@ -51,25 +55,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             fbTransfer = (FloatingActionButton)itemView.findViewById(R.id.fb_transfer);
             fbNFC = (FloatingActionButton)itemView.findViewById(R.id.fb_nfc);
             fbPayment = (FloatingActionButton)itemView.findViewById(R.id.fb_payment);
-
-            fbTransfer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //do something here
-                }
-            });
-            fbNFC.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //do something here
-                }
-            });
-            fbPayment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //do something here
-                }
-            });
         }
     }
 
@@ -106,18 +91,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public class NearMeViewHolder extends ViewHolder {
         public CardView cv3;
         public ExpandableListView info;
+        public ImageButton btn1, btn2;
 
         //populate with locations
-        public NearMeViewHolder(View itemView)
+        public NearMeViewHolder(final View itemView)
         {
             super(itemView);
             cv3 = (CardView)itemView.findViewById(R.id.cv3);
             info = (ExpandableListView) itemView.findViewById(R.id.nearme_list);
             final Drawable d = itemView.getResources().getDrawable(R.drawable.tdlogo);
             cv3.getLayoutParams().height = 400;
+
             info.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
                 @Override
-                public void onGroupExpand(int groupPosition) {
+                public void onGroupExpand(final int groupPosition) {
                     if(lastExpandedPosition != -1 && groupPosition != lastExpandedPosition)
                     {
                         info.collapseGroup(lastExpandedPosition);
@@ -127,7 +114,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     int height = 0;
                     for(int i =0; i < (groupPosition + 1); i++)
                     {
-                        height +=info.getChildAt(i).getHeight();
+                        height += info.getChildAt(i).getHeight();
                         height += info.getDividerHeight();
                     }
 
@@ -135,6 +122,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     cv3.getLayoutParams().height = height + d.getIntrinsicHeight();
                     cv3.setFocusableInTouchMode(true);
                     //info.getLayoutParams().height = (height+6) * 10;
+
                 }
             });
 
@@ -146,6 +134,57 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     //info.getLayoutParams().height = height;
                 }
             });
+
+//            btn1.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    switch(info.getSelectedItemPosition())
+//                    {
+//                        case 0:
+//                            String uri = String.format(Locale.ENGLISH, "geo:%f%f",43.0200373, -81.2161815);
+//                            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//                            context.startActivity(i);
+//                            break;
+//                        case 1:
+//                            String uri2 = String.format(Locale.ENGLISH, "geo:%f%f",43.0348858, -81.2581032);
+//                            Intent i2 = new Intent(Intent.ACTION_VIEW, Uri.parse(uri2));
+//                            context.startActivity(i2);
+//                            break;
+//                        case 2:
+//                            String uri3 = String.format(Locale.ENGLISH, "geo:%f%f",43.0067415, -81.2406151);
+//                            Intent i3 = new Intent(Intent.ACTION_VIEW, Uri.parse(uri3));
+//                            context.startActivity(i3);
+//                            break;
+//                    }
+//                }
+//            });
+//
+//            btn2.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    switch(info.getSelectedItemPosition())
+//                    {
+//                        case 0:
+//                            Intent i = new Intent(context, MapsActivity.class);
+//                            i.putExtra("longitude", "43.0200373");
+//                            i.putExtra("latitude", "-81.2161815");
+//                            context.startActivity(i);
+//                            break;
+//                        case 1:
+//                            Intent i2 = new Intent(context, MapsActivity.class);
+//                            i2.putExtra("longitude", "43.0348858");
+//                            i2.putExtra("latitude", "-81.2581032");
+//                            context.startActivity(i2);
+//                            break;
+//                        case 2:
+//                            Intent i3 = new Intent(context, MapsActivity.class);
+//                            i3.putExtra("longitude", "43.0067415");
+//                            i3.putExtra("latitude", "-81.2406151");
+//                            context.startActivity(i3);
+//                            break;
+//                    }
+//                }
+//            });
         }
     }
 
@@ -187,7 +226,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             //set information here
             AccountsViewHolder hold = (AccountsViewHolder)holder;
             //String text = mDataSet[position];
-            //hold.cheqBtn.setText(text);
+            hold.saveBtn.setText("Savings\n\n" + MainActivity.Savings);
+            hold.cheqBtn.setText("Chequing\n\n" + MainActivity.Cheque);
+            hold.ccBtn.setText("MasterCard\n\n" + MainActivity.MasterCard);
+            hold.tfsaBtn.setText("TFSA\n\n" + MainActivity.TFSA);
         }else if(holder.getItemViewType() == TRANSACTIONS)
         {
             TransactionViewHolder hold = (TransactionViewHolder) holder;

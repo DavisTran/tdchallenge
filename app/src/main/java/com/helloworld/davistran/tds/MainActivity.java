@@ -278,22 +278,22 @@ public class MainActivity extends AppCompatActivity
         startActivity(i, options.toBundle());
     }
 
-    private void animateButtonsOut() {
-        ScaleAnimation anim = new ScaleAnimation(1,0,1,0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        anim.setFillBefore(true);
-        anim.setFillAfter(true);
-        anim.setFillEnabled(true);
-        anim.setDuration(500);
-        anim.setInterpolator(new AccelerateInterpolator());
-
-        FloatingActionButton fbNFC = (FloatingActionButton) findViewById(R.id.fb_nfc);
-        FloatingActionButton fbTransfer = (FloatingActionButton) findViewById(R.id.fb_payment);
-        FloatingActionButton fbPayment = (FloatingActionButton) findViewById(R.id.fb_transfer);
-
-        fbNFC.setAnimation(anim);
-        fbTransfer.setAnimation(anim);
-        fbPayment.setAnimation(anim);
-    }
+//    private void animateButtonsOut() {
+//        ScaleAnimation anim = new ScaleAnimation(1,0,1,0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+//        anim.setFillBefore(true);
+//        anim.setFillAfter(true);
+//        anim.setFillEnabled(true);
+//        anim.setDuration(500);
+//        anim.setInterpolator(new AccelerateInterpolator());
+//
+//        FloatingActionButton fbNFC = (FloatingActionButton) findViewById(R.id.fb_nfc);
+//        FloatingActionButton fbTransfer = (FloatingActionButton) findViewById(R.id.fb_payment);
+//        FloatingActionButton fbPayment = (FloatingActionButton) findViewById(R.id.fb_transfer);
+//
+//        fbNFC.setAnimation(anim);
+//        fbTransfer.setAnimation(anim);
+//        fbPayment.setAnimation(anim);
+//    }
 
     public void FABSelected(View view) {
         switch(view.getId())

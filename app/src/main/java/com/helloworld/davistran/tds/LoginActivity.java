@@ -5,10 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -24,7 +26,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +40,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +74,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private TextView register;
 
     ColorMatrix matrix = new ColorMatrix();
     float saturation = 0;
@@ -81,6 +87,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.cardnumber);
         populateAutoComplete();
+
+        register = (TextView)findViewById(R.id.registerLink);
+
+        register.setText(Html.fromHtml("<a href =\"https://easyweb.td.com/waw/esr/selfRegistration.htm?\">Register</a>"));
+        register.setMovementMethod(LinkMovementMethod.getInstance());
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -98,21 +109,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
-                animation.setDuration(500);
-                animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        matrix.setSaturation(animation.getAnimatedFraction());
-                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-                        heroImage.setColorFilter(filter);
-                    }
-                });
-                animation.start();
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                RelativeLayout heroContainer = (RelativeLayout) findViewById(R.id.heroContainer);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this, heroContainer, "heroContainer");
-                startActivity(i, options.toBundle());
+                //FOR TESTING PURPOSES(LIANNE)
+                if(mEmailView.getText().toString().matches("12345") && mPasswordView.getText().toString().matches("admin"))
+                {
+                    ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
+                    animation.setDuration(500);
+                    animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            matrix.setSaturation(animation.getAnimatedFraction());
+                            ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                            heroImage.setColorFilter(filter);
+                        }
+                    });
+                    animation.start();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    RelativeLayout heroContainer = (RelativeLayout) findViewById(R.id.heroContainer);
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(LoginActivity.this, heroContainer, "heroContainer");
+                    startActivity(i, options.toBundle());
+                }else
+                    Toast.makeText(getBaseContext(), "Please enter the correct card number and password or by clicking the register link.", Toast.LENGTH_SHORT).show();
                 //attemptLogin();
             }
         });
@@ -141,6 +157,38 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        });
 //        animation.start();
         super.onResume();
+        //  Declare a new thread to do a preference check
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //  Initialize SharedPreferences
+                SharedPreferences getPrefs = PreferenceManager
+                        .getDefaultSharedPreferences(getBaseContext());
+
+                //  Create a new boolean and preference and set it to true
+                boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+
+                //  If the activity has never started before...
+               // if (isFirstStart) {
+
+                    //  Launch app intro
+                    Intent i = new Intent(LoginActivity.this, IntroActivity.class);
+                    startActivity(i);
+
+                    //  Make a new preferences editor
+                    SharedPreferences.Editor e = getPrefs.edit();
+
+                    //  Edit preference to make it false because we don't want this to run again
+                    e.putBoolean("firstStart", false);
+
+                    //  Apply changes
+                    e.apply();
+               // }
+            }
+        });
+
+        // Start the thread
+        t.start();
     }
 
     private void populateAutoComplete() {

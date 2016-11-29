@@ -2,6 +2,7 @@ package com.helloworld.davistran.tds;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -27,15 +28,22 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static double Cheque = 150.10;
+    public static double Savings = 1000.11;
+    public static double MasterCard = 10.10;
+    public static double TFSA = 13000.71;
     private RecyclerView mRecyclerView;
     private CustomAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -63,9 +71,9 @@ public class MainActivity extends AppCompatActivity
 //        nmArray.add(new NearMeInfo("TD Bank", "6 KM", "fast"));
 //        nmArray.add(new NearMeInfo("TD Building", "14 KM", "slow"));
 
-        NearMeInfo i1 = new NearMeInfo("TD ATM", "4 KM", "moderate", new ArrayList<String>(){{add("TD");}});
-        NearMeInfo i2 = new NearMeInfo("TD Bank", "6 KM", "fast", new ArrayList<String>(){{add("TD");}});
-        NearMeInfo i3 = new NearMeInfo("TD Building", "14 KM", "slow", new ArrayList<String>(){{add("lol");}});
+        NearMeInfo i1 = new NearMeInfo("TD ATM", "4 KM", "moderate", new ArrayList<String>(){{add("TD1");}});
+        NearMeInfo i2 = new NearMeInfo("TD Bank", "6 KM", "fast", new ArrayList<String>(){{add("TD2");}});
+        NearMeInfo i3 = new NearMeInfo("TD Building", "14 KM", "slow", new ArrayList<String>(){{add("TD3");}});
 
         ArrayList<NearMeInfo> nmArray= new ArrayList<NearMeInfo>();
 
@@ -84,7 +92,6 @@ public class MainActivity extends AppCompatActivity
 
         mRecyclerView.setAdapter(mAdapter);
         //setup buttons
-        //setupButtons();
 
         //drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -94,6 +101,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
 //        FloatingActionButton fbNFC = (FloatingActionButton) findViewById(R.id.fb_nfc);
@@ -165,32 +173,6 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-//    private void setupButtons(){
-//        saveBtn = (Button)findViewById(R.id.saveBtn);
-//        chequeBtn = (Button)findViewById(R.id.chequeBtn);
-//        mcBtn = (Button)findViewById(R.id.mcBtn);
-//        tfsaBtn = (Button)findViewById(R.id.tfsaBtn);
-//
-//        //setup height here
-//        String cheq = "CHEQUING";
-//        String save = "SAVINGS";
-//        String mc = "MASTERCARD";
-//        String tfsa = "TAX-FREE SAVINGS ACCOUNT";
-//
-//        SpannableStringBuilder ss = new SpannableStringBuilder();
-//        SpannableString s = new SpannableString(cheq + "\n");
-//        s.setSpan(new AbsoluteSizeSpan(9, true), 0, cheq.length(), 0);
-//        s.setSpan(new ForegroundColorSpan(Color.parseColor("#EA7C07")), 0,cheq.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        ss.append(s);
-//
-//        String temp = "hello";
-//
-//        SpannableString s2 = new SpannableString(temp);
-//        s2.setSpan(new AbsoluteSizeSpan(24, true), 0, temp.length(), 0);
-//        ss.append(s2);
-//        chequeBtn.setText(ss, TextView.BufferType.SPANNABLE);
-//    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -237,16 +219,32 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i, options.toBundle());
                 break;
             case R.id.nav_contact:
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:1-866-222-3456"));
+                try{
+                    startActivity(callIntent);
+                }catch(SecurityException e){
+                    Toast.makeText(this, "Call failed, may be a permission issue", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.nav_home:
                 break;
             case R.id.nav_location:
                 break;
             case R.id.nav_nfc:
+                Intent nfc = new Intent(this, NFCFormActivity.class);
+                //nfc.putExtra();
+                startActivity(nfc);
                 break;
             case R.id.nav_transfer:
+                Intent trans = new Intent(this, TransferActivity.class);
+                //nfc.putExtra();
+                startActivity(trans);
                 break;
             case R.id.nav_wallet:
+                Intent pay = new Intent(this, PaymentActivity.class);
+                //nfc.putExtra();
+                startActivity(pay);
                 break;
         }
 
@@ -304,12 +302,12 @@ public class MainActivity extends AppCompatActivity
                 startActivity(nfc);
                 break;
             case R.id.fb_payment:
-                Intent pay = new Intent(this, NFCFormActivity.class);
+                Intent pay = new Intent(this, PaymentActivity.class);
                 //nfc.putExtra();
                 startActivity(pay);
                 break;
             case R.id.fb_transfer:
-                Intent trans = new Intent(this, NFCFormActivity.class);
+                Intent trans = new Intent(this, TransferActivity.class);
                 //nfc.putExtra();
                 startActivity(trans);
                 break;

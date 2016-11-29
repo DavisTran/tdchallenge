@@ -13,6 +13,23 @@
     android:orientation="vertical"
     tools:context="com.helloworld.davistran.tds.NFCFormActivity">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Receive NFC E-Transfer"
+        android:id="@+id/receiveNFC"
+        android:onClick="NFCChoice"/>
+
+    <ViewSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/my_switcher3">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Make NFC E-Transfer"
+            android:id="@+id/sendNFC"
+            android:onClick="NFCChoice"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -29,7 +46,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recipientET"/>
+        android:id="@+id/recipientET"
+        android:hint="Recipient..."/>
 
     <TextView
         android:layout_width="match_parent"
@@ -57,7 +75,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/amountET"/>
+        android:id="@+id/amountET"
+        android:inputType="numberDecimal"
+        android:hint="Amount..."/>
 
     <TextView
         android:layout_width="match_parent"
@@ -72,16 +92,37 @@
         android:scrollbars="vertical"
         android:id="@+id/messageET"
         android:maxLength="255"
-        android:maxLines="4" />
+        android:maxLines="4"
+        android:hint="Message..."/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Password"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/passwordET"
+        android:hint="Password..."/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Start NFC"
+        android:text="Start NFC E-Transfer"
         android:id="@+id/startNFC"
+        android:onClick="startNFC"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Cancel"
+        android:id="@+id/NFCCancel"
         android:onClick="startNFC"/>
         </LinearLayout>
     </ScrollView>
+    </ViewSwitcher>
 
 </LinearLayout>

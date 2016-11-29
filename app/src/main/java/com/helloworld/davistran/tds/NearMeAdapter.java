@@ -4,15 +4,21 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by Davis on 11/22/2016.
@@ -107,19 +113,68 @@ public class NearMeAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.info_nearme_row_details, null);
         }
 
-        String child = (String)getChild(groupPosition, childPosition);
+        final String child = (String)getChild(groupPosition, childPosition);
 
-        ImageView imgur = (ImageView)convertView.findViewById(R.id.childmap);
+        //ImageView imgur = (ImageView)convertView.findViewById(R.id.childmap);
+        ImageButton btn1 = (ImageButton)convertView.findViewById(R.id.gmapsBtn);
+        ImageButton btn2 = (ImageButton)convertView.findViewById(R.id.tdmapsBtn);
 
-        switch(child)
-        {
-            case "TD":
-                imgur.setBackgroundResource(R.drawable.tdlogo);
-                break;
-            default:
-                imgur.setBackgroundResource(R.drawable.ic_menu_home);
-                break;
-        }
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(child)
+                {
+                    case "TD1":
+                        String uri = String.format(Locale.ENGLISH, "geo:%f%f",43.0200373, -81.2161815);
+                        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(i);
+                        break;
+                    case "TD2":
+                        String uri2 = String.format(Locale.ENGLISH, "geo:%f%f",43.0348858, -81.2581032);
+                        Intent i2 = new Intent(Intent.ACTION_VIEW, Uri.parse(uri2));
+                        i2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(i2);
+                        break;
+                    case "TD3":
+                        String uri3 = String.format(Locale.ENGLISH, "geo:%f%f",43.0067415, -81.2406151);
+                        Intent i3 = new Intent(Intent.ACTION_VIEW, Uri.parse(uri3));
+                        i3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(i3);
+                        break;
+                }
+            }
+        });
+
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch(child)
+                {
+                    case "TD1":
+                        Intent i = new Intent(ctx, MapsActivity.class);
+                        i.putExtra("longitude", "43.0200373");
+                        i.putExtra("latitude", "-81.2161815");
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(i);
+                        break;
+                    case "TD2":
+                        Intent i2 = new Intent(ctx, MapsActivity.class);
+                        i2.putExtra("longitude", "43.0348858");
+                        i2.putExtra("latitude", "-81.2581032");
+                        i2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(i2);
+                        break;
+                    case "TD3":
+                        Intent i3 = new Intent(ctx, MapsActivity.class);
+                        i3.putExtra("longitude", "43.0067415");
+                        i3.putExtra("latitude", "-81.2406151");
+                        i3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ctx.startActivity(i3);
+                        break;
+                }
+            }
+        });
 
         return convertView;
     }

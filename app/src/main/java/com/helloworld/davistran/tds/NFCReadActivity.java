@@ -27,6 +27,7 @@ public class NFCReadActivity extends AppCompatActivity {
     ViewSwitcher switcher;
     TextView textView;
     private AlertDialog.Builder dlgAlert;
+    private int attempts = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +111,11 @@ public class NFCReadActivity extends AppCompatActivity {
                                     textView.setText("NFC E-Transfer Received: \n" + "Amount: " + parts[0] + "\n" + "Message: " + message);
                                     //UPDATE ACCOUNT HERE
                                 }else{
-                                    Toast.makeText(NFCReadActivity.this, "Please enter the correct password", Toast.LENGTH_SHORT).show();
+                                    if(attempts!=0) {
+                                        attempts--;
+                                        Toast.makeText(NFCReadActivity.this, "Please enter the correct password\n You have " + attempts + " attempts left", Toast.LENGTH_SHORT).show();
+                                    }else
+                                        finish();
                                 }
                             }
                         });

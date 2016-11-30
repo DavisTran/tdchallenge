@@ -3,6 +3,8 @@ package com.helloworld.davistran.tds;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.annotation.MainThread;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -55,11 +57,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-//    @Override
-//    public void onBackPressed()
-//    {
-//        finish();
-//    }
+    @Override
+    public void onBackPressed()
+    {
+        Intent i = new Intent(this, MainActivity.class);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        startActivity(i, options.toBundle());
+    }
 
     /**
      * Manipulates the map once available.

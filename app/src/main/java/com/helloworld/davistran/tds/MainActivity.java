@@ -304,23 +304,20 @@ public class MainActivity extends AppCompatActivity
 //    }
 
     public void FABSelected(View view) {
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+        Intent i = null;
         switch(view.getId())
         {
             case R.id.fb_nfc:
-                Intent nfc = new Intent(this, NFCFormActivity.class);
-                //nfc.putExtra();
-                startActivity(nfc);
+                i = new Intent(this, NFCFormActivity.class);
                 break;
             case R.id.fb_payment:
-                Intent pay = new Intent(this, PaymentActivity.class);
-                //nfc.putExtra();
-                startActivity(pay);
+                i = new Intent(this, PaymentActivity.class);
                 break;
             case R.id.fb_transfer:
-                Intent trans = new Intent(this, TransferActivity.class);
-                //nfc.putExtra();
-                startActivity(trans);
+                i = new Intent(this, TransferActivity.class);
                 break;
         }
+        startActivity(i, options.toBundle());
     }
 }
